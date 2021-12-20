@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class GamesController extends Controller
 {
@@ -14,7 +15,7 @@ class GamesController extends Controller
     public function index()
     {
 
-                // For Multi Query
+        // For Multi Query
         // $client = new \GuzzleHttp\Client(['base_uri' => 'https://api-v3.igdb.com/']);
 
         // $response = $client->request('POST', 'multiquery', [
@@ -64,12 +65,26 @@ class GamesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $game = Http::withHeaders(config('services.igdb.headers'))
+            ->withBody(
+                "fields name, cover.url, first_release_date, platforms.abbreviation, rating,
+                slug, involved_companies.company.name, genres.name, aggregated_rating, summary, websites.*, videos.*, screenshots.*, similar_games.cover.url, similar_games.name, similar_games.rating,similar_games.platforms.abbreviation, similar_games.slug;
+                where slug=\"{$slug}\";
+            ",
+                "text/plain"
+            )->post('https://api.igdb.com/v4/games')
+            ->json();
+
+        abort_if(!$game, 404);
+
+        return view('show', [
+            'game' => $game[0],
+        ]);
     }
 
     /**
