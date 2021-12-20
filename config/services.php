@@ -30,4 +30,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'igdb' => [
+        'headers' => [
+            'Client-ID' => env('IGDB_CLIENT_ID'),
+            'Authorization' => 'Bearer '.env('IGDB_ACCESS_TOKEN'),
+        ],
+        'endpoint' => 'https://api.igdb.com/v4/games',
+    ]
+
 ];

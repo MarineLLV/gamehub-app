@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', 'App\Http\Controllers\GamesController@index')->name('games.index');
+
+/* Route::get('/', function () {
     return view('index');
 });
 
 
 Route::get('/show', function () {
     return view('show');
-});
+}); */
