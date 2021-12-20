@@ -23,6 +23,7 @@
             </div>
         </div>
     @empty
+    @foreach (range(1, 12) as $game)
     <div class="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
         <div class="animate-pulse flex space-x-4">
           <div class="rounded-full bg-gray-200 h-10 w-10"></div>
@@ -38,5 +39,6 @@
           </div>
         </div>
       </div>
+      @endforeach
     @endforelse
 </div> <!-- end popular-games -->
